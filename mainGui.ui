@@ -156,7 +156,7 @@ QMenu::item:selected {
      </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="btnWidgetlayout">
       <item>
        <spacer name="horizontalSpacer_3">
         <property name="orientation">

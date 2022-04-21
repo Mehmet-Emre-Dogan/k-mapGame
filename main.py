@@ -8,6 +8,8 @@ from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5 import QtCore 
 from PyQt5 import QtGui
 
+from functools import partial
+
 from mainGui import Ui_mainWindow
 
 wordArr = []
@@ -35,6 +37,25 @@ class myWindow(QtWidgets.QMainWindow):
         self.setWindowIcon(QtGui.QIcon('img.png'))
         self.ui.widget.setObjectName("table")
         self.ui.widget.setStyleSheet("""QWidget#table {background-image: url(./bg.png); background-position: center; background-repeat: no-repeat; }""")
+        self.minterms = {}
+        # self.ui.btn0.objectName()
+        buttons = self.ui.widget.findChildren(QtWidgets.QPushButton)
+        for button in buttons:
+            # foo = lambda btn = button : btn.setText( str(int(not int(btn.text()))) )
+            # https://stackoverflow.com/questions/11723217/python-lambda-doesnt-remember-argument-in-for-loop
+
+            self.minterms.update({button.objectName(): int(button.text())}) # initialize minterm array
+
+            def foo(btn):
+                newVal = int(not int(btn.text()))
+                btn.setText( str(newVal) )
+                self.minterms.update({btn.objectName(): newVal}) # update minyterm array
+                if DEBUG:
+                    print(self.minterms)
+
+            foo2 = partial(foo, button)
+            button.clicked.connect(foo2)
+            
 
     def infoMessage(self, title="Info", text="Text text"):
         msg = QMessageBox()
